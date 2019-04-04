@@ -110,9 +110,12 @@ export default {
     width: 100%;
     > li {
       margin-top: 10px;
+      height: 34px;
     }
     .del-button {
-      display: inline-block;
+      float: right;
+      position: relative;
+      top: -1px;
     }
   }
 }
