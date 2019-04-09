@@ -10,24 +10,5 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "todo",
     "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "color": "#999",
-    "backgroundColor": "#fafafa",
-    "selectedColor": "#333",
-    "borderStyle": "white",
-
-    "list": [{
-      "text": "1",
-      "pagePath": "pages/index/main",
-      "iconPath": "static/tabs/home.png",
-      "selectedIconPath": "static/tabs/home-active.png"
-    }, {
-      "text": "2",
-      "pagePath": "pages/logs/main",
-      "iconPath": "static/tabs/orders.png",
-      "selectedIconPath": "static/tabs/orders-active.png"
-    }],
-    "position": "bottom"
   }
 }

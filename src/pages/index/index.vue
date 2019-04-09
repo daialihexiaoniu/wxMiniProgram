@@ -39,43 +39,42 @@
       <li>已完成</li>
       <li>未完成</li>
     </ul>
+    <div class="add-task">
+      <input class="add-task-input" type="text" placeholder="添加todo">
+      <button class="add-button" @click="addTask()">添加</button>
+    </div>
     <ul class="todo-list">
-      <li>
-        <input type="checkbox">1111 <button class="del-button">删除</button>
-      </li>
-      <li>
-        <input type="checkbox">2222 <button class="del-button">删除</button>
+      <li v-for="(task, index) in tasks" :key="index">
+        <span>{{task.body}}</span><button @click="deleteTask()" class="del-button">删除</button>
       </li>
     </ul>
-    <!-- <mptoast /> -->
   </div>
 </template>
 
 <script>
-import mptoast from 'mptoast'
 
 export default {
   data () {
     return {
       motto: 'Hello miniprograme',
       userInfo: {},
-      isLogin: false
+      isLogin: false,
+      tasks: [
+        {body: '示例1', complete: false},
+        {body: '示例2', complete: false}
+      ]
     }
-  },
-  components: {
-    mptoast
   },
   methods: {
     getUserInfo () {
       console.log(111)
+    },
+    deleteTask () {
+      console.log('删除')
+    },
+    addTask () {
+      console.log('添加')
     }
-    // showToast () {
-    //   console.log(111111111)
-    //   this.$mptoast('我是提示信息')
-    // }
-  },
-
-  created () {
   }
 }
 </script>
@@ -105,12 +104,33 @@ export default {
       border-bottom: 1px solid red;
     }
   }
+  .add-task {
+    margin: 10px 0;
+    width: 100%;
+    height: 34px;
+    line-height: 34px;
+    .add-task-input {
+      display: inline-block;
+      width: 250px;
+      height: 34px;
+      line-height: 34px;
+      border-bottom: 0.5px solid #eee;
+    }
+    .add-button {
+      float: right;
+      width: 60px;
+      color: #fff;
+      background: #fe3f3f;
+    }
+  }
   .todo-list {
     margin-top: 10px;
     width: 100%;
     > li {
-      margin-top: 10px;
+      padding: 5px 0;
       height: 34px;
+      line-height: 34px;
+      border-bottom: 0.5px solid #eee;
     }
     .del-button {
       float: right;
