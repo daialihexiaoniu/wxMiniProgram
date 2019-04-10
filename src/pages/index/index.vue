@@ -11,10 +11,9 @@
     </div>
     <ul class="todo-list">
       <li v-for="(task, index) in tasks" :key="index">
-        <input type="checkbox" @click="completeTask(task)">
+        <input type="checkbox" @click="completeTask(task)" :checked="task.complete">
         <span :class="{'complete' : task.complete}">{{task.body}}</span>
         <button @click="deleteTask(task)" class="del-button">删除</button>
-        <!-- <button @click="completeTask(task)" class="del-button">完成</button> -->
       </li>
     </ul>
   </div>
@@ -34,13 +33,31 @@ export default {
       ]
     }
   },
+  onShow: function () {
+    console.log(111)
+    var _this = this
+    wx.getStorage({
+      key: 'task',
+      success: function (res) {
+        _this.tasks = res.data
+      }
+    })
+  },
   methods: {
     completeTask (task) {
       let index = this.tasks.indexOf(task)
       this.tasks[index].complete = !task.complete
+      wx.setStorage({
+        key: 'task',
+        data: this.tasks
+      })
     },
     deleteTask (task) {
       this.tasks.splice(this.tasks.indexOf(task), 1)
+      wx.setStorage({
+        key: 'task',
+        data: this.tasks
+      })
     },
     addTask () {
       if (this.newTask === '') {
@@ -48,6 +65,10 @@ export default {
       }
       this.tasks.push({body: this.newTask, complete: false})
       this.newTask = ''
+      wx.setStorage({
+        key: 'task',
+        data: this.tasks
+      })
     }
   }
 }
