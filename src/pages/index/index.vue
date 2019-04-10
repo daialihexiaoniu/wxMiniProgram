@@ -1,64 +1,33 @@
 <template>
-  <!-- <div @click="clickHandle">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <img class="userinfo-avatar" src="/static/images/user.png" background-size="cover" />
-
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
-    </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <a href="/pages/todo/main" class="counter">todo</a>
-
-    <form class="form-container">
-      <input type="text" class="form-control" :value="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
-
-    <div class="all">
-        <div class="left">
-        </div>
-        <div class="right">
-        </div>
-    </div>
-  </div> -->
   <div class="container">
-    <ul class="tab-container">
+    <!-- <ul class="tab-container">
       <li class="active">全部</li>
       <li>已完成</li>
       <li>未完成</li>
-    </ul>
+    </ul> -->
     <div class="add-task">
-      <input class="add-task-input" type="text" placeholder="添加todo">
+      <input class="add-task-input" type="text" placeholder="添加todo" v-model="newTask">
       <button class="add-button" @click="addTask()">添加</button>
     </div>
     <ul class="todo-list">
       <li v-for="(task, index) in tasks" :key="index">
-        <span>{{task.body}}</span><button @click="deleteTask()" class="del-button">删除</button>
+        <input type="checkbox" @click="completeTask(task)">
+        <span :class="{'complete' : task.complete}">{{task.body}}</span>
+        <button @click="deleteTask(task)" class="del-button">删除</button>
+        <!-- <button @click="completeTask(task)" class="del-button">完成</button> -->
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-
 export default {
   data () {
     return {
       motto: 'Hello miniprograme',
       userInfo: {},
       isLogin: false,
+      newTask: '',
       tasks: [
         {body: '示例1', complete: false},
         {body: '示例2', complete: false}
@@ -66,14 +35,19 @@ export default {
     }
   },
   methods: {
-    getUserInfo () {
-      console.log(111)
+    completeTask (task) {
+      let index = this.tasks.indexOf(task)
+      this.tasks[index].complete = !task.complete
     },
-    deleteTask () {
-      console.log('删除')
+    deleteTask (task) {
+      this.tasks.splice(this.tasks.indexOf(task), 1)
     },
     addTask () {
-      console.log('添加')
+      if (this.newTask === '') {
+        return
+      }
+      this.tasks.push({body: this.newTask, complete: false})
+      this.newTask = ''
     }
   }
 }
@@ -131,6 +105,9 @@ export default {
       height: 34px;
       line-height: 34px;
       border-bottom: 0.5px solid #eee;
+    }
+    .complete {
+      text-decoration:line-through;
     }
     .del-button {
       float: right;
