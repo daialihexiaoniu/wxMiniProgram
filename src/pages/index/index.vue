@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <button iv v-if="!hasUserInfo && canIUse" open-type="getUserInfo" @getuserinfo="getUserInfo">登录</button>  
+    <div class="user-data" v-if="!(!hasUserInfo && canIUse)">
+      <img class="userinfo-avatar" alt="" :src="myUserInfo.avatarUrl">
+      <div class="userinfo-nickname">{{myUserInfo.nickName}}</div>
+    </div>
     <ul class="tab-container">
       <li :class="{active : status==2}" @click="changeStatus(2)">未完成</li>
       <li :class="{active : status==1}" @click="changeStatus(1)">已完成</li>
@@ -32,6 +37,7 @@
         <div class="todo-text-wrap" v-if="!task.complete">
           <input type="checkbox" @click="completeTask(task)" :checked="task.complete">
           <span :class="{'complete' : task.complete}">{{task.body}}</span>
+          <button @click="startTask(task)" class="del-button">开始</button>
           <button @click="deleteTask(task)" class="del-button">删除</button>
         </div>
       </li>
@@ -53,11 +59,35 @@ export default {
       tasks: [
         {body: '示例1', complete: false},
         {body: '示例2', complete: false}
-      ]
+      ],
+      myUserInfo: {},
+      hasUserInfo: false,
+      canIUse: wx.canIUse('button.open-type.getUserInfo')
     }
   },
   components: {
     mptoast
+  },
+  onLoad: function () {
+    if (this.globalData.userInfo) {
+      this.myUserInfo = this.globalData.userInfo
+      this.hasUserInfo = true
+    } else if (this.canIUse) {
+      this.userInfoReadyCallback = res => {
+        console.log(res)
+        this.myUserInfo = res.userInfo
+        this.hasUserInfo = true
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          this.globalData.userInfo = res.userInfo
+          this.myUserInfo = res.userInfo
+          this.hasUserInfo = true
+        }
+      })
+    }
   },
   onShow: function () {
     var _this = this
@@ -87,6 +117,9 @@ export default {
         data: this.tasks
       })
     },
+    startTask (task) {
+      console.log(task)
+    },
     addTask () {
       if (this.newTask.replace(/^\s+|\s+$/g, '') === '') {
         this.$mptoast('请输入todo内容')
@@ -98,6 +131,11 @@ export default {
         key: 'task',
         data: this.tasks
       })
+    },
+    getUserInfo (e) {
+      this.globalData.userInfo = e.mp.detail.userInfo
+      this.myUserInfo = e.mp.detail.userInfo
+      this.hasUserInfo = true
     }
   }
 }
@@ -113,6 +151,19 @@ export default {
     line-height: 1;
     padding: 10px 15px;
     vertical-align: bottom;
+  }
+
+  .user-data{
+    .userinfo-avatar {
+      width: 60rpx;
+      height: 60rpx;
+      margin-right: 15rpx;
+      border-radius: 50%;
+    }
+    .userinfo-nickname {
+      color: #666;
+      font-size: 11pt;
+    }
   }
 
   .tab-container {
