@@ -2,25 +2,30 @@
   "pages": [
     "pages/index/main",
     "pages/logs/main",
-    "pages/counter/main"
+    "pages/counter/main",
+    "pages/todo/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "todo",
+    "navigationBarTitleText": "阿黎食谱",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#ccc",
+    "color": "#000",
     "selectedColor": "#dd2727",
     "backgroundColor": "#fff",
     "borderStyle": "black",
     "list": [{
       "pagePath": "pages/index/main",
-      "text": "主页"
+      "text": "主页",
+      "selectedIconPath": "./static/tabs/home-active.png",
+      "iconPath": "./static/tabs/home.png"
     }, {
-      "pagePath": "pages/logs/main",
-      "text": "日志"
+      "pagePath": "pages/todo/main",
+      "text": "todo",
+      "selectedIconPath": "./static/tabs/todo-active.png",
+      "iconPath": "./static/tabs/todo.png"
     }]
   }
 }

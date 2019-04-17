@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import mpvueToastRegistry from 'mptoast/src/registry'
+import '../static/css/common.css'
 
 mpvueToastRegistry(Vue)
 
