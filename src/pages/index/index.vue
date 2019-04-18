@@ -2,7 +2,7 @@
   <div class="container">
     <div class="food-title">今日美食推荐</div>
     <ul class="food-list">
-      <li v-for="(list, index) in lists" :key="index" class="food-item">
+      <li v-for="(list, index) in lists" :key="index" class="food-item" @click="getDetail(index)">
         <img :src="list.image" :alt="list.name" class="food-image">
         <div class="food-text">
           <div class="food-name">{{list.name}}</div>
@@ -23,7 +23,6 @@
         lists: []
       }
     },
-    onLoad: function () {},
     onShow: function () {
       this.getList()
     },
@@ -35,6 +34,11 @@
           success (res) {
             _this.lists = res.data.data.projects
           }
+        })
+      },
+      getDetail (index) {
+        wx.navigateTo({
+          url: '../details/main?id=' + index
         })
       }
     }
