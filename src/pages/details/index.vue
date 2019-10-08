@@ -27,11 +27,9 @@
       wx.request({
         url: 'https://www.easy-mock.com/mock/5cb6885db543fe5b60ec288b/example/getdetail:id=' + id,
         success (res) {
-          console.log(res.data.data)
           _this.details = res.data.data
         }
       })
-      console.log(this.details)
     }
   }
 </script>
